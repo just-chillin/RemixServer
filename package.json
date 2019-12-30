@@ -1,0 +1,11 @@
+{
+  "name": "RemixServer",
+  "version": "1.0.0",
+  "description": "The client for running the Remix App's API",
+  "main": "index.js",
+  "author": "Remix LLC.",
+  "dependencies": {
+    "express": "^4.17.1",
+    "typescript": "^3.7.4"
+  }
+}
