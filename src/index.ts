@@ -26,9 +26,12 @@ async function startServer(port?: number) {
   }
   console.debug(`Starting server on port ${port}`);
   const server = api.listen(port);
+  const uri = `localhost:${port}/`
   return {
     port: port,
-    server: server
+    server: server,
+    uri: uri,
+    endpoint: (name: string) => uri + name
   };
 }
 
