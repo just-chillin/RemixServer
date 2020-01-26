@@ -4,6 +4,10 @@
   "description": "The client for running the Remix App's API",
   "main": "index.js",
   "author": "Remix LLC.",
+  "scripts": {
+    "start": "tsc && node ./build/index.js",
+    "test": "tsc && node ./build/tests/tests.js"
+  },
   "dependencies": {
     "express": "^4.17.1",
     "get-port": "^5.1.0",
