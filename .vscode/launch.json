@@ -8,13 +8,13 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
+      "program": "${workspaceFolder}/src/index.ts",
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "program": "${workspaceFolder}/index.js",
-      "outFiles": [
-        "${workspaceFolder}/**/*.js"
-      ]
+      "outFiles": ["${workspaceFolder}/build/**/*.js"],
+      "preLaunchTask": "tsc: build - tsconfig.json"
     }
+
   ]
 }
