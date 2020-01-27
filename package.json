@@ -5,8 +5,7 @@
   "main": "index.js",
   "author": "Remix LLC.",
   "scripts": {
-    "start": "node --inspect ./build/index.js",
-    "test": "node --inspect ./build/tests/tests.js"
+    "start": "tsc && node --inspect ./build/index.js"
   },
   "dependencies": {
     "aws-sdk": "^2.610.0",
