@@ -1,5 +1,5 @@
 {
-  "name": "RemixServer",
+  "name": "remixserver",
   "version": "1.0.0",
   "description": "The client for running the Remix App's API",
   "main": "index.js",
