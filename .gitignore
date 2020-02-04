@@ -3,3 +3,4 @@ build
 out
 *.js
 tsconfig.tsbuildinfo
+.env

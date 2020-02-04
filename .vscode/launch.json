@@ -8,12 +8,12 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
+      "envFile": "${workspaceFolder}/.env",
+      "args": ["--unhandled-rejections=strict"],
       "program": "${workspaceFolder}/src/index.ts",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "outFiles": ["${workspaceFolder}/out/**/*.js"],
-      "preLaunchTask": "build",
+      "preLaunchTask": "build"
     }
   ]
 }
