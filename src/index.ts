@@ -7,7 +7,7 @@ import Db from "./data/MongoService";
 import multer from "multer";
 
 const api = Express();
-const port = 5000;
+const port = process.env.PORT || 8081;
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
@@ -90,7 +90,7 @@ async function startServer(port?: number) {
 
 // Starts the server if this module is ran standalone.
 if (!module.parent) {
-  startServer(port)
+  startServer(Number(port))
     .then(v => console.log(`App listening on port ${v.port}!`))
     .catch(console.error);
 }
