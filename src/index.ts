@@ -7,7 +7,7 @@ import Db from "./data/MongoService";
 import multer from "multer";
 
 const api = Express();
-const port = 8080;
+const port = 5000;
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
