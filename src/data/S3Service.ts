@@ -8,7 +8,7 @@ const s3 = new AWS.S3({
 
 const videoBucket = "remixvideo";
 
-const getVideoUrl = (bucketName: string, key: string) => new URL(`https://${bucketName}.s3.amazonaws.com/${key}`);
+const getVideoUrl = (bucketName: string, key: string) => new URL(key, `https://${bucketName}.s3.amazonaws.com/`);
 
 const S3Service = {
   uploadVideo(video: S3.Body) {

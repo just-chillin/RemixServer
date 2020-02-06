@@ -42,11 +42,17 @@ api.post("/user", json(), (req, res) => {
   });
 });
 
-api.get("/video", (req, res) => {
-  Db.getNewVideos().then(res.send);
+api.get("/video/new", (req, res) => {
+  console.debug(req.query);
+  Db.getNewVideos(new Date(req.query.Time * 1000), Number(req.query.Page))
+    .then(videos => res.send(JSON.stringify(videos)))
+    .catch(reason => {
+      res.status(INTERNAL_SERVER_ERROR);
+      res.send(reason);
+    });
 });
 
-api.post("/video", upload.single("video"), (req, res) => {
+api.post("/video", upload.single("Video"), (req, res) => {
   if (!req.headers.authorization || !req.file) {
     res.sendStatus(BAD_REQUEST);
     return;

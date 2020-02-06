@@ -13,8 +13,9 @@ interface Video {
   name: string;
   description: string;
   owner_id: ObjectId;
-  url: URL;
+  url: string;
   key: string;
+  timestamp: Date;
 }
 
 interface User {
@@ -35,12 +36,13 @@ export default {
   /**
    * TODO IMPLEMENT PAGINATION
    */
-  async getNewVideos() {
+  async getNewVideos(timestamp: Date, page: number) {
     const videos = await this.videos;
     return await videos
-      .find()
-      .project({ s3_url: 1 })
-      .sort({ _id: -1 })
+      .find({
+        $expr: { $lt: ["$timestamp", timestamp] },
+      })
+      .sort({ timestamp: -1 })
       .toArray();
   },
 
@@ -55,8 +57,9 @@ export default {
       name: name,
       description: description,
       owner_id: owner._id,
-      url: url,
+      url: url.href,
       key: key,
+      timestamp: new Date(),
     });
   },
 
