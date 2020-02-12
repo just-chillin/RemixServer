@@ -5,6 +5,8 @@ import bodyParser from "body-parser";
 import VideoService from "./data/VideoService";
 import Db from "./data/MongoService";
 import multer from "multer";
+import { validate as validate_email, validate } from "email-validator";
+import utils from "./utils";
 
 const api = Express();
 const port = process.env.PORT || 8081;
@@ -67,6 +69,20 @@ api.post("/video", upload.single("Video"), (req, res) => {
     });
 });
 
+api.post("/registerbeta", (req, res) => {
+  const email: string | undefined = req.query.email;
+  if (!email || !validate_email(email)) {
+    res.sendStatus(BAD_REQUEST);
+    return;
+  }
+  Db.betaRegister(email)
+    .then(() => {
+      console.log(`Sucessfully registered ${email} for the beta!`);
+      res.sendStatus(OK);
+    })
+    .catch(() => res.sendStatus(INTERNAL_SERVER_ERROR));
+});
+
 api.use((req, res, next) => {
   res.status(NOT_FOUND).send("Couldn't find route!");
   console.error(`Request at endpoint ${req.url} failed with 404!`);
@@ -94,5 +110,4 @@ if (!module.parent) {
     .then(v => console.log(`App listening on port ${v.port}!`))
     .catch(console.error);
 }
-
 export { startServer as default };

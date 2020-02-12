@@ -25,6 +25,11 @@ interface User {
   auth: string;
 }
 
+interface BetaRegistration {
+  _id: ObjectId;
+  email: string;
+}
+
 function getCollection<T>(name: string) {
   return Promise.resolve(db.then(db => db.collection<T>(name)));
 }
@@ -32,6 +37,12 @@ function getCollection<T>(name: string) {
 export default {
   users: getCollection<User>("users"),
   videos: getCollection<Video>("videos"),
+  beta_registrations: getCollection<BetaRegistration>("beta_registrations"),
+
+  async betaRegister(email: string) {
+    const beta_registrations = await this.beta_registrations;
+    return await beta_registrations.insertOne({ email: email });
+  },
 
   /**
    * TODO IMPLEMENT PAGINATION
