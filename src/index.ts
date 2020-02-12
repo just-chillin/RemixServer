@@ -1,4 +1,4 @@
-import Express, { json, raw } from "express";
+import Express, { json, raw, urlencoded } from "express";
 import { UNAUTHORIZED, OK, INTERNAL_SERVER_ERROR, BAD_REQUEST, NOT_FOUND } from "http-status-codes";
 import getPort from "get-port";
 import bodyParser from "body-parser";
@@ -67,8 +67,8 @@ api.post("/video", upload.single("Video"), (req, res) => {
     });
 });
 
-api.post("/registerbeta", (req, res) => {
-  const email: string | undefined = req.query.email;
+api.post("/registerbeta", urlencoded({ extended: true }), (req, res) => {
+  const email: string | undefined = req.body.email;
   if (!email || !validate_email(email)) {
     res.sendStatus(BAD_REQUEST);
     return;
