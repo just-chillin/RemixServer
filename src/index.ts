@@ -19,8 +19,6 @@ api.use((req, _, next) => {
   next();
 });
 
-api.get("/", (_, res) => res.send("Hello World!"));
-
 /**
  * /user. Confirms an authentication token.
  */
