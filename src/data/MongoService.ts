@@ -16,6 +16,8 @@ interface Video {
   url: string;
   key: string;
   timestamp: Date;
+  likes: number;
+  comments: Comment;
 }
 
 interface User {
@@ -23,6 +25,16 @@ interface User {
   handle: string;
   email: string;
   auth: string;
+  followers: ObjectId[];
+  following: ObjectId[];
+  videos: ObjectId[];
+}
+
+interface Comment {
+  _id: ObjectId; //This is the user identifier
+  comment: string;
+  likes: number;
+  timestamp: Date;
 }
 
 interface BetaRegistration {
@@ -34,7 +46,7 @@ function getCollection<T>(name: string) {
   return Promise.resolve(db.then(db => db.collection<T>(name)));
 }
 
-export default {
+const MongoService = {
   users: getCollection<User>("users"),
   videos: getCollection<Video>("videos"),
   beta_registrations: getCollection<BetaRegistration>("beta_registrations"),
@@ -46,6 +58,7 @@ export default {
 
   /**
    * TODO IMPLEMENT PAGINATION
+   *  Purpose of newest videos for the feed
    */
   async getNewVideos(timestamp: Date, page: number) {
     const videos = await this.videos;
@@ -64,7 +77,7 @@ export default {
       throw new Error("Invalid ownerAuthToken or user not found when attempting to create video metadata");
     }
     await videos.insertOne({
-      s3_url: "hello", //TODO get s3 URL
+      s3_url: url, //TODO get s3 URL
       name: name,
       description: description,
       owner_id: owner._id,
@@ -104,4 +117,38 @@ export default {
       auth: utils.hash(email, password),
     });
   },
+
+  /**
+   * Add new followers to User's followers
+   */
+  async addAFollower(userId: ObjectId, auth: string) {
+    const users = await MongoService.users;
+    const user = users.findOne({
+      auth: auth,
+    });
+    const followerToUpdate;
+    //return true or false
+  },
+
+  /**
+   * Access followers
+   */
+
+  /**
+   * Add new followings to User's followings
+   */
+
+  /**
+   * Access followings
+   */
+
+  /**
+   * Like new video
+   */
+
+  /**
+   * Comment on video
+   */
 };
+
+export default MongoService;
