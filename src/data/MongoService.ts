@@ -123,32 +123,119 @@ const MongoService = {
    */
   async addAFollower(userId: ObjectId, auth: string) {
     const users = await MongoService.users;
-    const user = users.findOne({
-      auth: auth,
-    });
-    const followerToUpdate;
+    try {
+      const userFollower = await users.findOne({
+        auth: auth,
+      });
+      const userProfile = await users.findOne({
+        _id: userId,
+      });
+      return true;
+    } catch {
+      console.log("Couldn't Add Follower in List");
+      return false;
+    }
     //return true or false
+  },
+
+  /**
+   * Remove a follower
+   */
+  async removeFollower(userId: ObjectId, auth: string) {
+    const users = await MongoService.users;
+    try {
+      const userFollower = await users.findOne({
+        auth: auth,
+      });
+      const userProfile = await users.findOne({
+        _id: userId,
+      });
+      return true;
+    } catch {
+      console.log("Couldn't Add Follower in List");
+      return false;
+    }
   },
 
   /**
    * Access followers
    */
+  async seeFollowers(auth: string) {
+    const users = await MongoService.users;
+    const user = users.findOne({
+      auth: auth,
+    });
+    const followers = (await user).followers;
+    return followers;
+  },
 
   /**
    * Add new followings to User's followings
    */
+  async addAFollowing(userId: ObjectId, auth: string) {
+    const users = await MongoService.users;
+    try {
+      const userFollowing = await users.findOne({
+        auth: auth,
+      });
+      const userProfile = await users.findOne({
+        _id: userId,
+      });
+      return true;
+    } catch {
+      console.log("Couldn't Add Following in List");
+      return false;
+    }
+  },
 
+  /**
+   * Remove a follower
+   */
+  async removeFollowing(userId: ObjectId, auth: string) {
+    const users = await MongoService.users;
+    try {
+      const userFollower = await users.findOne({
+        auth: auth,
+      });
+      const userProfile = await users.findOne({
+        _id: userId,
+      });
+      return true;
+    } catch {
+      console.log("Couldn't Add Follower in List");
+      return false;
+    }
+  },
   /**
    * Access followings
    */
+  async seeFollowing(auth: string) {
+    const users = await MongoService.users;
+    const user = users.findOne({
+      auth: auth,
+    });
+    const followings = (await user).following;
+    return followings;
+  },
 
   /**
    * Like new video
    */
+  async likeAVideo(_id: ObjectId) {},
+
+  /**
+   * Unlike Video
+   */
+  async unlikeAVideo(_id: ObjectId) {},
 
   /**
    * Comment on video
    */
+  async commentOnVideo(_id: ObjectId) {},
+
+  async likeCommentOnVideo(_id: ObjectId) {},
+
+  async unlikeCommentOnVideo(_id: ObjectId) {},
 };
 
 export default MongoService;
