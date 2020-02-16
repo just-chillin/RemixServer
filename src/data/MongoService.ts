@@ -1,6 +1,7 @@
 import { MongoClient, ObjectId } from "mongodb";
 
 import utils from "../utils";
+import { VideoMetadata } from "aws-sdk/clients/rekognition";
 
 const connectionString =
   "mongodb+srv://colins:AThkGeEHyrSK7W2Q@cluster0-fkrys.gcp.mongodb.net/test?retryWrites=true&w=majority";
@@ -9,11 +10,9 @@ const db = Promise.resolve(client.then(client => client.db("remix")));
 
 interface Video {
   _id: ObjectId;
-  s3_url: string;
   name: string;
   description: string;
   owner_id: ObjectId;
-  url: string;
   key: string;
   timestamp: Date;
 }
@@ -34,7 +33,7 @@ function getCollection<T>(name: string) {
   return Promise.resolve(db.then(db => db.collection<T>(name)));
 }
 
-export default {
+const MongoService = {
   users: getCollection<User>("users"),
   videos: getCollection<Video>("videos"),
   beta_registrations: getCollection<BetaRegistration>("beta_registrations"),
@@ -57,18 +56,16 @@ export default {
       .toArray();
   },
 
-  async createVideoMetadata(ownerAuthToken: string, name: string, description: string, url: URL, key: string) {
+  async createVideoMetadata(ownerAuthToken: string, name: string, description: string, url: string, key: string) {
     const videos = await this.videos;
     const owner = await this.findUserByAuth(ownerAuthToken);
     if (!owner) {
       throw new Error("Invalid ownerAuthToken or user not found when attempting to create video metadata");
     }
     await videos.insertOne({
-      s3_url: "hello", //TODO get s3 URL
       name: name,
       description: description,
       owner_id: owner._id,
-      url: url.href,
       key: key,
       timestamp: new Date(),
     });
@@ -105,3 +102,5 @@ export default {
     });
   },
 };
+
+export { MongoService as default };

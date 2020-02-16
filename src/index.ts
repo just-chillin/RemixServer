@@ -59,12 +59,12 @@ api.post("/video", upload.single("Video"), (req, res) => {
   }
 
   console.log(`Attempting to upload video with name: ${req.query.Name} and description: ${req.query.Description}.`);
-  VideoService.uploadVideo(req.file.buffer, req.headers.authorization, req.query.Name, req.query.Description)
-    .then(() => res.sendStatus(OK))
-    .catch(err => {
-      console.trace(err);
-      res.sendStatus(INTERNAL_SERVER_ERROR);
-    });
+  try {
+    VideoService.uploadVideo(req.file.buffer, req.headers.authorization, req.query.Name, req.query.Description);
+    res.sendStatus(OK);
+  } catch {
+    res.sendStatus(INTERNAL_SERVER_ERROR);
+  }
 });
 
 api.post("/registerbeta", urlencoded({ extended: true }), (req, res) => {

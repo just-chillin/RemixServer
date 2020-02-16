@@ -4,6 +4,9 @@
     "sourceMap": true,
     "outDir": "./out",
     "rootDir": "./src",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+    "strict": true
   }
 }

@@ -10,10 +10,11 @@ const VideoService = {
    * @param name
    * @param description
    */
-  async uploadVideo(video: S3.Body, ownerAuthToken: string, name: string, description: string) {
+  uploadVideo(video: S3.Body, ownerAuthToken: string, name: string, description: string) {
     ownerAuthToken = ownerAuthToken.replace("Basic ", "");
-    const { key, uploadManager, url } = S3Service.uploadVideo(video);
-    MongoService.createVideoMetadata(ownerAuthToken, name, description, url, key).catch(console.trace);
+    S3Service.uploadVideo(video)
+      .then(upload => MongoService.createVideoMetadata(ownerAuthToken, name, description, upload.Location, upload.Key))
+      .catch(console.error);
   },
 };
 
