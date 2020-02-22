@@ -1,7 +1,6 @@
 import { MongoClient, ObjectId } from "mongodb";
 
 import utils from "../utils";
-import { VideoMetadata } from "aws-sdk/clients/rekognition";
 
 const connectionString =
   "mongodb+srv://colins:AThkGeEHyrSK7W2Q@cluster0-fkrys.gcp.mongodb.net/test?retryWrites=true&w=majority";
