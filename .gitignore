@@ -4,3 +4,4 @@ out
 *.js
 tsconfig.tsbuildinfo
 .env
+*.exe
