@@ -1,18 +1,19 @@
-import Express, { json, raw, urlencoded } from "express";
+import Express, { json, urlencoded } from "express";
 import { UNAUTHORIZED, OK, INTERNAL_SERVER_ERROR, BAD_REQUEST, NOT_FOUND } from "http-status-codes";
 import getPort from "get-port";
-import bodyParser from "body-parser";
-import VideoService from "./VideoService";
+import { uploadVideo } from "./VideoService";
 import Db from "./data/MongoService";
 import multer from "multer";
-import { validate as validate_email, validate } from "email-validator";
-import utils from "./utils";
+import { validate as validate_email } from "email-validator";
+import fs from "fs";
 
 const api = Express();
 const port = process.env.PORT || 8081;
 
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
+const storage = multer.diskStorage({});
+const upload = multer({
+  storage: storage,
+});
 
 api.use((req, _, next) => {
   console.log("\nIncoming request:", req.url);
@@ -59,12 +60,14 @@ api.post("/video", upload.single("Video"), (req, res) => {
   }
 
   console.log(`Attempting to upload video with name: ${req.query.Name} and description: ${req.query.Description}.`);
-  try {
-    VideoService.uploadVideo(req.file.buffer, req.headers.authorization, req.query.Name, req.query.Description);
-    res.sendStatus(OK);
-  } catch {
-    res.sendStatus(INTERNAL_SERVER_ERROR);
-  }
+  uploadVideo(fs.createReadStream(req.file.path), req.headers.authorization, req.query.Name, req.query.Description)
+    .then(() => {
+      res.sendStatus(OK);
+    })
+    .catch(err => {
+      console.trace(err);
+      res.sendStatus(INTERNAL_SERVER_ERROR);
+    });
 });
 
 api.post("/registerbeta", urlencoded({ extended: true }), (req, res) => {
