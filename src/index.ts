@@ -1,7 +1,7 @@
 import Express, { json, urlencoded } from "express";
 import { UNAUTHORIZED, OK, INTERNAL_SERVER_ERROR, BAD_REQUEST, NOT_FOUND } from "http-status-codes";
 import getPort from "get-port";
-import { uploadVideo } from "./VideoService";
+import { uploadVideo } from "./video/VideoService";
 import Db from "./data/MongoService";
 import multer from "multer";
 import { validate as validate_email } from "email-validator";
