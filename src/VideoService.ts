@@ -1,8 +1,19 @@
 import S3Service from "./data/S3Service";
 import MongoService from "./data/MongoService";
 import { S3 } from "aws-sdk";
+import ffmpeg from "fluent-ffmpeg";
+import stream from "stream";
 
 const VideoService = {
+  isValid(video: stream.Readable) {
+    return new Promise(resolve => {
+      ffmpeg(video)
+        .on("end", () => resolve(true))
+        .on("error", () => resolve(false))
+        .run();
+    });
+  },
+
   /**
    * TODO Get transactions working
    * @param video
