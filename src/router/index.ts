@@ -1,14 +1,12 @@
 import Express, { json, urlencoded } from "express";
 import { UNAUTHORIZED, OK, INTERNAL_SERVER_ERROR, BAD_REQUEST, NOT_FOUND } from "http-status-codes";
-import getPort from "get-port";
-import { uploadVideo } from "./video/VideoService";
-import Db from "./database/MongoService";
+import { uploadVideo } from "../video/VideoService";
+import Db from "../database/MongoService";
 import multer from "multer";
 import { validate as validate_email } from "email-validator";
 import fs from "fs";
 
 const api = Express();
-const port = process.env.PORT || 8081;
 
 const storage = multer.diskStorage({});
 const upload = multer({
@@ -90,10 +88,7 @@ api.use((req, res, next) => {
   next();
 });
 
-async function startServer(port?: number) {
-  if (!port) {
-    port = await getPort();
-  }
+function startServer(port: number) {
   if (module.parent) console.debug(`Starting server on port ${port}`);
   const server = api.listen(port);
   const uri = `localhost:${port}/`;
@@ -106,9 +101,5 @@ async function startServer(port?: number) {
 }
 
 // Starts the server if this module is ran standalone.
-if (!module.parent) {
-  startServer(Number(port))
-    .then(v => console.log(`App listening on port ${v.port}!`))
-    .catch(console.error);
-}
-export { startServer as default };
+
+export { startServer };

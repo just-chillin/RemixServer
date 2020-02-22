@@ -5,7 +5,7 @@
   "main": "index.js",
   "author": "Remix LLC.",
   "scripts": {
-    "start": "node ./out/index.js"
+    "start": "node ./out/app.js"
   },
   "husky": {
     "hooks": {
