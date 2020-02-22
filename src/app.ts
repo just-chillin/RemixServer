@@ -1,4 +1,4 @@
-import { startServer } from "./routes/router";
+import { startServer } from "./router";
 import getPort from "get-port";
 
 getPort({ port: Number(process.env.PORT) || 8081 })
