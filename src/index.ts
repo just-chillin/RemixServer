@@ -2,7 +2,7 @@ import Express, { json, raw, urlencoded } from "express";
 import { UNAUTHORIZED, OK, INTERNAL_SERVER_ERROR, BAD_REQUEST, NOT_FOUND } from "http-status-codes";
 import getPort from "get-port";
 import bodyParser from "body-parser";
-import VideoService from "./data/VideoService";
+import VideoService from "./VideoService";
 import Db from "./data/MongoService";
 import multer from "multer";
 import { validate as validate_email, validate } from "email-validator";
