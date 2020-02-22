@@ -51,4 +51,4 @@ async function uploadVideo(video: stream.Readable, ownerAuthToken: string, name:
   MongoService.createVideoMetadata(ownerAuthToken, name, description, upload.Location, upload.Key);
 }
 
-export { uploadVideo, convertVideo };
+export default { uploadVideo, convertVideo };
