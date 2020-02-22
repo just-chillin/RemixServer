@@ -1,5 +1,5 @@
-import S3Service from "./data/S3Service";
-import MongoService from "./data/MongoService";
+import S3Service from "../database/S3Service";
+import MongoService from "../database/MongoService";
 import { S3, FSx } from "aws-sdk";
 import ffmpeg from "fluent-ffmpeg";
 import stream from "stream";
