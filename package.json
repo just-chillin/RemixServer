@@ -17,6 +17,7 @@
     "btoa": "^1.2.1",
     "email-validator": "^2.0.4",
     "express": "^4.17.1",
+    "fluent-ffmpeg": "^2.1.2",
     "get-port": "^5.1.1",
     "http-status-codes": "^1.4.0",
     "install": "^0.13.0",
