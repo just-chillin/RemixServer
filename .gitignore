@@ -5,4 +5,4 @@ out
 tsconfig.tsbuildinfo
 .env
 *.exe
-ignored
+.ignored
