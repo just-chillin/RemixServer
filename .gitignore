@@ -1,2 +1,8 @@
 node_modules
+build
+out
 *.js
+tsconfig.tsbuildinfo
+.env
+*.exe
+.ignored
