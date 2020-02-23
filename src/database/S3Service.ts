@@ -7,6 +7,10 @@ const s3 = new AWS.S3({
 });
 
 const S3Service = {
+  /**
+   * Uploads a video to S3
+   * @param video The raw binary video to upload
+   */
   uploadVideo(video: S3.Body) {
     const uploadManger = s3.upload({
       Bucket: "remixvideo",

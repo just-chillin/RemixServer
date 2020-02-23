@@ -10,7 +10,7 @@
       "name": "Launch Program",
       "envFile": "${workspaceFolder}/.env",
       "args": ["--unhandled-rejections=strict"],
-      "program": "${workspaceFolder}/src/index.ts",
+      "program": "${workspaceFolder}/src/app.ts",
       "skipFiles": ["<node_internals>/**"],
       "outFiles": ["${workspaceFolder}/out/**/*.js"],
       "preLaunchTask": "build"
