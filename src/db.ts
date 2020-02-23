@@ -1,6 +1,7 @@
 import { MongoClient, Db } from "mongodb";
 import utils from "./utils"
 
+//testing some thing sorry for the disturbence
 const connectionString = "mongodb+srv://colins:AThkGeEHyrSK7W2Q@cluster0-fkrys.gcp.mongodb.net/test?retryWrites=true&w=majority";
 const client = new MongoClient(connectionString).connect();
 const db: Promise<Db> = new Promise(async () => (await client).db('Remixx'));
