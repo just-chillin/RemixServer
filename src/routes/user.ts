@@ -5,7 +5,7 @@ import MongoService from "../database/MongoService";
 const User = Router();
 
 /**
- * /user. Confirms an authentication token.
+ * Checks to see if a given auth token exists.
  */
 User.get("/", (req, res) => {
   const auth = req.headers.authorization;
@@ -15,6 +15,11 @@ User.get("/", (req, res) => {
   MongoService.userExists(auth).then(exists => res.sendStatus(exists ? OK : UNAUTHORIZED));
 });
 
+/**
+ * Creates a user.
+ * body:
+ *  handle, email, password
+ */
 User.post("/", json(), (req, res) => {
   console.log("creating user");
   MongoService.createUser(req.body.handle, req.body.email, req.body.password).then(result => {

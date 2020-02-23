@@ -5,7 +5,15 @@ import MongoService from "../database/MongoService";
 
 const IndexRoute = Router();
 
+type RegisterBetaBody = {
+  email: string;
+};
+
+/**
+ * Endpoint that registers a user for the beta. (application/x-www-form-urlencoded)
+ */
 IndexRoute.post("/registerbeta", urlencoded({ extended: true }), (req, res) => {
+  const body: RegisterBetaBody = req.body;
   const email: string | undefined = req.body.email;
   if (!email || !EmailValidator.validate(email)) {
     res.sendStatus(BAD_REQUEST);

@@ -11,6 +11,11 @@ const upload = multer({
   storage: storage,
 });
 
+/**
+ * Gets a list of new videos.
+ * body:
+ *  Time, Page
+ */
 VideoRoute.get("/new", (req, res) => {
   console.debug(req.query);
   MongoService.getNewVideos(new Date(req.query.Time * 1000), Number(req.query.Page))
@@ -21,6 +26,15 @@ VideoRoute.get("/new", (req, res) => {
     });
 });
 
+/**
+ * Uploads a video
+ * headers:
+ *  authorization
+ * body:
+ *  video (form-encoded)
+ *  query-params:
+ *    Name, Description
+ */
 VideoRoute.post("/", upload.single("Video"), (req, res) => {
   if (!req.headers.authorization || !req.file) {
     res.sendStatus(BAD_REQUEST);

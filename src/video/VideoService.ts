@@ -5,11 +5,11 @@ import stream from "stream";
 import { S3 } from "aws-sdk";
 
 /**
- * TODO Get transactions working
- * @param video
- * @param ownerAuthToken
- * @param name
- * @param description
+ * Uploads a video to Remix.
+ * @param video The binary video file
+ * @param ownerAuthToken The auth token of the owner.
+ * @param name The video's name
+ * @param description The video's description
  */
 async function uploadVideo(video: S3.Body, ownerAuthToken: string, name: string, description: string) {
   ownerAuthToken = ownerAuthToken.replace("Basic ", "");
