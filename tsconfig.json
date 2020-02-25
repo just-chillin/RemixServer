@@ -1,12 +1,18 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "./out",
     "rootDir": "./src",
     "esModuleInterop": true,
     "noImplicitThis": true,
     "strictNullChecks": true,
-    "strict": true
+    "strict": true,
+    "emitBOM": true,
+    "declarationMap": true,
+    "useDefineForClassFields": true,
+    "declaration": true
   }
 }
