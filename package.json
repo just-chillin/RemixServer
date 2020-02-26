@@ -7,7 +7,6 @@
   "scripts": {
     "start": "node ./out/app.js"
   },
-
   "dependencies": {
     "aws-sdk": "^2.611.0",
     "btoa": "^1.2.1",
