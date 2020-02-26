@@ -2,7 +2,7 @@ import { Router } from "express";
 import { OK, INTERNAL_SERVER_ERROR, BAD_REQUEST } from "http-status-codes";
 import MongoService from "../database/MongoService";
 import VideoService from "../video/VideoService";
-import multer from "multer";
+import multer = require('multer');
 
 const VideoRoute = Router();
 

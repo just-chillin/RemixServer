@@ -1,18 +1,13 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
-    "moduleResolution": "node",
-    "sourceMap": true,
+    "target": "es2018",
+    "module": "commonjs",
     "outDir": "./out",
     "rootDir": "./src",
-    "esModuleInterop": true,
-    "noImplicitThis": true,
-    "strictNullChecks": true,
-    "strict": true,
-    "emitBOM": true,
+    "declaration": true,
     "declarationMap": true,
-    "useDefineForClassFields": true,
-    "declaration": true
+    "sourceMap": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
   }
 }

@@ -3,13 +3,13 @@
  * @description A service built to abstract the use of FFmpeg
  */
 
-import env from "env-var";
-import child_process from "child_process";
-import os from "os";
-import uuid from "uuid";
-import fs from "fs";
-import path from "path";
-import stream from "stream";
+import env = require("env-var");
+import child_process = require("child_process");
+import os = require("os");
+import uuid = require("uuid");
+import fs = require("fs");
+import stream = require("stream");
+import path = require("path");
 
 const FFMPEG_PATH = env
   .get("FFMPEG_PATH")
