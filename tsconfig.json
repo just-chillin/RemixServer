@@ -9,6 +9,7 @@
     "sourceMap": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "watch": false
+    "watch": false,
+    "incremental": true
   }
 }
