@@ -13,6 +13,8 @@
       "program": "${workspaceFolder}/src/app.ts",
       "skipFiles": ["<node_internals>/**"],
       "outFiles": ["${workspaceFolder}/out/**/*.js"],
+      "showAsyncStacks": true,
+      "smartStep": true,
       "preLaunchTask": "build"
     }
   ]
