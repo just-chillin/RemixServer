@@ -10,11 +10,25 @@ import uuid = require("uuid");
 import fs = require("fs");
 import stream = require("stream");
 import path = require("path");
+import { ffprobe } from "fluent-ffmpeg";
 
 const FFMPEG_PATH = env
   .get("FFMPEG_PATH")
   .required()
   .asString();
+  
+const FFPROBE_PATH = env
+  .get("FFPROBE_PATH")
+  .default('ffprobe')
+  .asString();
+
+async function probe(video_path: string) {
+  const output = new stream.Writable({
+    objectMode: true
+  });
+  const ffprobe_process = child_process.spawn(FFPROBE_PATH || 'ffprobe', ['-i', video_path, '-show_format', '-show_error', '-print_format', 'json=c=0']);
+  console.log(ffprobe_process.stdout);
+}
 
 /**
  * Converts a video using ffmpeg to a universally readable format, and compresses the bitrate.
