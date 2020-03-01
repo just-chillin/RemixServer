@@ -1,5 +1,5 @@
-import { MongoClient, ObjectId } from "mongodb";
-
+import { MongoClient, ObjectId, WithTransactionCallback } from "mongodb";
+import {RefreshToken, AccessToken, Identity} from "../auth/IdentityProvider"
 import utils from "../utils";
 
 const connectionString =
@@ -40,6 +40,8 @@ const MongoService = {
   users: getCollection<User>("users"),
   videos: getCollection<Video>("videos"),
   beta_registrations: getCollection<BetaRegistration>("beta_registrations"),
+  identities: getCollection<Identity>("identities"),
+  client: client,
 
   /**
    * Inserts a userr into the beta_registrations collection.
@@ -121,6 +123,11 @@ const MongoService = {
       console.error("CRITICAL BUG: USER DATA CLASH");
     }
     return numAccountsWithToken === 1;
+  },
+
+  async doTransaction<T>(transaction: WithTransactionCallback<T>) {
+    const cli = await client;
+    return await cli.withSession(s => s.withTransaction(transaction));
   },
 
   /**
