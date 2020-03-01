@@ -45,7 +45,7 @@ type FFProbeFormat = {
  */
 export async function probe(video_path: string) {
   let data = "";
-  const ffprobe_process = child_process.spawn(FFPROBE_PATH || "ffprobe", [
+  const ffprobe_process = child_process.spawn(FFPROBE_PATH, [
     "-i",
     video_path,
     "-show_format",
