@@ -1,12 +1,14 @@
 import { Router } from "express";
-import { OK, INTERNAL_SERVER_ERROR, BAD_REQUEST } from "http-status-codes";
+import { OK, INTERNAL_SERVER_ERROR, BAD_REQUEST, UNAUTHORIZED, UNSUPPORTED_MEDIA_TYPE } from "http-status-codes";
 import MongoService from "../database/MongoService";
-import VideoService from "../video/VideoService";
-import multer = require('multer');
+import { uploadVideo } from "../video/VideoService";
+import multer = require("multer");
+import { probe } from "../video/FFprobeService";
+import fs = require('fs');
 
 const VideoRoute = Router();
 
-const storage = multer.memoryStorage();
+const storage = multer.diskStorage({});
 const upload = multer({
   storage: storage,
 });
@@ -35,14 +37,17 @@ VideoRoute.get("/new", (req, res) => {
  *  query-params:
  *    Name, Description
  */
-VideoRoute.post("/", upload.single("Video"), (req, res) => {
-  if (!req.headers.authorization || !req.file) {
-    res.sendStatus(BAD_REQUEST);
+VideoRoute.post("/", upload.single("Video"), async (req, res) => {
+  if (!req.headers.authorization) {
+    res.sendStatus(UNAUTHORIZED);
+    return;
+  } else if (req.file.mimetype !== 'video/mp4' || 'error' in (await probe(req.file.path))) {
+    res.sendStatus(UNSUPPORTED_MEDIA_TYPE);
     return;
   }
 
   console.log(`Attempting to upload video with name: ${req.query.Name} and description: ${req.query.Description}.`);
-  VideoService.uploadVideo(req.file.buffer, req.headers.authorization, req.query.Name, req.query.Description)
+  uploadVideo(fs.createReadStream(req.file.path), req.headers.authorization, req.query.Name, req.query.Description)
     .then(() => {
       res.sendStatus(OK);
     })

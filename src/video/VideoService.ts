@@ -9,10 +9,8 @@ import { S3 } from "aws-sdk";
  * @param name The video's name
  * @param description The video's description
  */
-async function uploadVideo(video: S3.Body, ownerAuthToken: string, name: string, description: string) {
+export async function uploadVideo(video: S3.Body, ownerAuthToken: string, name: string, description: string) {
   ownerAuthToken = ownerAuthToken.replace("Basic ", "");
   const upload = await S3Service.uploadVideo(video);
   MongoService.createVideoMetadata(ownerAuthToken, name, description, upload.Location, upload.Key);
 }
-
-export default { uploadVideo };
