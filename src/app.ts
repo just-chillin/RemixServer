@@ -1,6 +1,9 @@
 import { startServer } from "./router";
 import getPort = require("get-port");
 
-const port = getPort({ port: Number(process.env.PORT) || 8081 })
-  .then(startServer)
-  .catch(console.error);
+async function main() {
+  const port = await getPort({ port: Number(process.env.PORT) || 8081 });
+  startServer(port);
+}
+
+main().catch(console.error);
