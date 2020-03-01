@@ -1,6 +1,6 @@
 import { MongoClient, ObjectId, WithTransactionCallback } from "mongodb";
 import utils from "../utils";
-import { Identity } from "../auth/AuthTypes";
+import { Identity } from "../Models/auth/AuthTypes";
 
 const connectionString =
   "mongodb+srv://colins:AThkGeEHyrSK7W2Q@cluster0-fkrys.gcp.mongodb.net/test?retryWrites=true&w=majority";

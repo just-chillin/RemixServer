@@ -1,5 +1,5 @@
 import crypto = require("crypto");
-import MongoService from "../database/MongoService";
+import MongoService from "../../database/MongoService";
 import {AuthorizationScope, Token, RefreshToken, AccessToken, Identity} from "./AuthTypes";
 
 function referenceHashFunc() {
@@ -31,10 +31,19 @@ export abstract class IdentityProvider {
     return new_token;
   }
 
-  public async check_authorization(token: AccessToken) {
+  public static async check_authorization(required_scope: AuthorizationScope, token?: AccessToken) {
+    if (!token) return []; // The token is null, so just immediately return false.
     const ids = await MongoService.identities;
     const res = await ids.findOne({ access_token: token });
-    return res ? res.authorizations : [];
+    if (!res || !res.authorizations) return []; // The authorization record does not exist.
+    return res.authorizations;
+
+  }
+
+  public static async is_authorized(required_scope: AuthorizationScope, token?: AccessToken) {
+    const authorized_scopes = await this.check_authorization(required_scope, token);
+    if (authorized_scopes.includes(AuthorizationScope.ALL)) return true; // The token is authorized to do anything.
+    else return authorized_scopes.includes(required_scope); // Check if the token is authorized to do the requested operation.
   }
 }
 
