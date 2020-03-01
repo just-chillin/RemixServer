@@ -1,6 +1,6 @@
 import { startServer } from "./router";
-import getPort from "get-port";
+import getPort = require("get-port");
 
-getPort({ port: Number(process.env.PORT) || 8081 })
+const port = getPort({ port: Number(process.env.PORT) || 8081 })
   .then(startServer)
-  .catch(console.trace);
+  .catch(console.error);

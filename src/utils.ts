@@ -1,4 +1,4 @@
-import btoa from "btoa";
+import btoa = require('btoa');
 
 export default {
   /**

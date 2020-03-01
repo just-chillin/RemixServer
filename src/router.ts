@@ -1,8 +1,8 @@
-import Express from "express";
 import { RequestLogger, NotFoundHandler } from "./routes/middleware";
 import IndexRoute from "./routes/index";
 import UserRoute from "./routes/user";
 import Video from "./routes/video";
+import Express = require('express');
 
 const App = Express()
   .use(RequestLogger)

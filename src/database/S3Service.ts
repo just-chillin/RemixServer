@@ -1,6 +1,6 @@
-import AWS, { S3 } from "aws-sdk";
-import uuid from "uuid";
-
+import type { S3 } from "aws-sdk";
+import AWS = require('aws-sdk');
+import uuid = require('uuid');
 const s3 = new AWS.S3({
   accessKeyId: process.env.AWSAccessKeyId,
   secretAccessKey: process.env.AWSSecretKey,

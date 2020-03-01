@@ -1,12 +1,13 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "sourceMap": true,
+    "target": "es2018",
+    "module": "commonjs",
     "outDir": "./out",
     "rootDir": "./src",
-    "esModuleInterop": true,
-    "noImplicitThis": true,
-    "strictNullChecks": true,
-    "strict": true
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
   }
 }
