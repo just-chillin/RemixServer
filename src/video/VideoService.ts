@@ -1,5 +1,5 @@
 import S3Service from "../database/S3Service";
-import MongoService from "../database/MongoService";
+import MongoService from "../database/DeprecatedMongoService";
 import { S3 } from "aws-sdk";
 
 /**

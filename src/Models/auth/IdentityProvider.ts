@@ -1,5 +1,5 @@
 import crypto = require("crypto");
-import MongoService from "../../database/MongoService";
+import MongoService from "../../database/DeprecatedMongoService";
 import {AuthorizationScope, Token, RefreshToken, AccessToken, Identity} from "./AuthTypes";
 
 function referenceHashFunc() {

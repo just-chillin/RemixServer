@@ -1,4 +1,4 @@
-import MongoService from "../../database/MongoService";
+import MongoService from "../../database/DeprecatedMongoService";
 import { IdentityProvider } from "./IdentityProvider";
 import { AuthorizationScope, Identity } from "./AuthTypes";
 

@@ -1,6 +1,6 @@
 import { Router, json } from "express";
 import { UNAUTHORIZED, OK, INTERNAL_SERVER_ERROR } from "http-status-codes";
-import MongoService from "../database/MongoService";
+import MongoService from "../database/DeprecatedMongoService";
 
 const User = Router();
 
