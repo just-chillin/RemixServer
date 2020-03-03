@@ -1,6 +1,7 @@
 import env = require('env-var');
-import { WithTransactionCallback, MongoClient, Collection } from 'mongodb';
+import { WithTransactionCallback, MongoClient, Collection, ObjectId } from 'mongodb';
 import _ = require('lodash');
+import { Schema } from 'mongoose';
 
 
 const connectionString = env.get('MONGO_CONNECTION_STRING').required().asUrlString();
@@ -28,15 +29,20 @@ export async function doTransaction<T>(transaction: WithTransactionCallback<T>) 
 //   }
 // }
 
-export type SchemaOf<M extends Model> = ReturnType<M['seralize']>;
+export type SchemaOf<M extends Model<any>> = ReturnType<M['seralize']>;
 
-export abstract class Model<Schema = any> {
-  public abstract seralize(): Schema; 
-  /**
-   * Returns the collection that this document belongs to. MUST BE Overriden and MUST BE cached unless you want to kill preformance.
-   */
-  public static get collection(): SchemaOf<>;
+interface Schema {
+  _id: ObjectId
+}
+
+ 
+
+export abstract class Model<S extends Schema, CollectionName extends stringlitera;> {
+  public abstract seralize(): S;
+  static collection = getCollection(CollectionName)
+
+
   public insert() {
-    return this.collection.insertOne(this.seralize());
+    return .collection.insertOne(this.seralize());
   };
 }
