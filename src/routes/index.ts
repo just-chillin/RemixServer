@@ -1,4 +1,4 @@
-import MongoService from "../database/MongoService";
+import MongoService from "../database/DeprecatedMongoService";
 import { Router, urlencoded } from "express";
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR, OK } from "http-status-codes";
 import email_validator = require('email-validator');

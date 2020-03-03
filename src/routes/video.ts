@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { OK, INTERNAL_SERVER_ERROR, BAD_REQUEST, UNAUTHORIZED, UNSUPPORTED_MEDIA_TYPE } from "http-status-codes";
-import MongoService from "../database/MongoService";
+import MongoService from "../database/DeprecatedMongoService";
 import { uploadVideo } from "../video/VideoService";
 import multer = require("multer");
 import { probe } from "../video/FFprobeService";

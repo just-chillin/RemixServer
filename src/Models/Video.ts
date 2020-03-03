@@ -2,20 +2,33 @@ import { AccessToken, AuthorizationScope } from './auth/AuthTypes';
 import { IdentityProvider } from './auth/IdentityProvider';
 import { probe } from '../video/FFprobeService';
 import S3Service from '../database/S3Service';
-import MongoService from '../database/MongoService';
+import MongoService from '../database/DeprecatedMongoService';
+import {getCollection, Model, SchemaOf} from './db/MongoUtils';
 import { OK, INTERNAL_SERVER_ERROR, UNAUTHORIZED, UNSUPPORTED_MEDIA_TYPE } from "http-status-codes";
 import fs = require('fs');
+import {User}  from './User'
+import { ObjectId } from 'mongodb';
 
+export const VideoCollection = getCollection<Video>("video");
+type VideoModel = {
+    title: string,
+    key?: string,
+    owner: SchemaOf<User>;
+}
 
-class Video {
+class Video extends Model<VideoModel> {
+    _id?: ObjectId;
     
-    constructor(private readonly name: string, private readonly description: string) {}
+    constructor(private readonly name: string, private readonly description: string) {
+        super();
+    }
+
 
     /**
      * Inserts the video into the database.
      * @param access The user's authorization token.
      */
-    async upload(access: AccessToken, path: string) {
+    static async upload(access: AccessToken, path: string): Promise<Video> {
         const authorized = await IdentityProvider.is_authorized(AuthorizationScope.UPLOAD_VIDEO, access);
         if (!authorized) return UNAUTHORIZED;
 
