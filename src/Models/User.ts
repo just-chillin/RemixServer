@@ -1,22 +1,28 @@
 import {AccessToken} from './auth/AuthTypes'
-import { Model } from './db/MongoUtils'
+import { Model, getCollection, ForeignKey } from './db/MongoUtils'
 import { ObjectId } from 'mongodb'
-export class User extends Model<{_id: ObjectId, test: number}>{
-    public seralize(): { _id: any } {
-        throw new Error("Method not implemented.")
-    }
-    public get collection(): import("mongodb").Collection<any> {
-        this.insert()
-        throw new Error("Method not implemented.")
-    }
-    static getTokenOwner(token: AccessToken) {
-=    }
+import { Video } from './Video';
 
-    static registerUser(username: string, password: string) {
+type UserModel = {
+    _id: ObjectId;
+    handle: string;
+    email: string;
+    videos: ObjectId[];
+}
+
+const userCollection = getCollection<User>('user');
+
+export class User extends Model {
+    _id?: ObjectId;
+    handle?: string;
+    email?: string;
+    videos?: ForeignKey<Video>[];
+
+    update() {
         
     }
-
-    constructor(){
-        super()
+    
+    insert() {
+        return userCollection.insertOne(this);
     }
 }

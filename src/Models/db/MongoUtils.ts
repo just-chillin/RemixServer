@@ -1,7 +1,6 @@
 import env = require('env-var');
 import { WithTransactionCallback, MongoClient, Collection, ObjectId } from 'mongodb';
 import _ = require('lodash');
-import { Schema } from 'mongoose';
 
 
 const connectionString = env.get('MONGO_CONNECTION_STRING').required().asUrlString();
@@ -29,20 +28,12 @@ export async function doTransaction<T>(transaction: WithTransactionCallback<T>) 
 //   }
 // }
 
-export type SchemaOf<M extends Model<any>> = ReturnType<M['seralize']>;
+export type ForeignKey<M extends Model> = M['_id'];
 
-interface Schema {
-  _id: ObjectId
-}
-
- 
-
-export abstract class Model<S extends Schema, CollectionName extends stringlitera;> {
-  public abstract seralize(): S;
-  static collection = getCollection(CollectionName)
-
-
-  public insert() {
-    return .collection.insertOne(this.seralize());
-  };
+/**
+ * To make a variable transient, either make it private, or define it with a symbol.
+ */
+export abstract class Model {
+  abstract _id?: ObjectId;
+  abstract insert(): any;
 }

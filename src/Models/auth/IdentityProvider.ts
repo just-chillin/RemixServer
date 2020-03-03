@@ -31,17 +31,21 @@ export abstract class IdentityProvider {
     return new_token;
   }
 
-  public static async check_authorization(required_scope: AuthorizationScope, token?: AccessToken) {
-    if (!token) return []; // The token is null, so just immediately return false.
+  public static async get_identity(required_scope: AuthorizationScope, token: AccessToken) {
     const ids = await MongoService.identities;
-    const res = await ids.findOne({ access_token: token });
-    if (!res || !res.authorizations) return []; // The authorization record does not exist.
-    return res.authorizations;
+    return await ids.findOne({ access_token: token });
+  }
 
+  public static async get_authorizations(required_scope: AuthorizationScope, token?: AccessToken) {
+    if (!token) return []; // The token is null, so just immediately return false.
+    const identity = await this.get_identity(required_scope, token);
+    if (!identity || !identity.authorizations) return []; // The authorization record does not exist.
+    return identity.authorizations;
   }
 
   public static async is_authorized(required_scope: AuthorizationScope, token?: AccessToken) {
-    const authorized_scopes = await this.check_authorization(required_scope, token);
+    const authorized_scopes = await this.get_authorizations(required_scope, token);
+    if (authorized_scopes === []) return false;
     if (authorized_scopes.includes(AuthorizationScope.ALL)) return true; // The token is authorized to do anything.
     else return authorized_scopes.includes(required_scope); // Check if the token is authorized to do the requested operation.
   }
