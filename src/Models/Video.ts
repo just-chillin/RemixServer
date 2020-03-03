@@ -13,24 +13,19 @@ export const videoCollection = getCollection<Video>("video");
 
 enum RequiredAuthorizations {}
 
-class UploadError extends Error {
-  constructor(readonly http_error_code: number) {
-    super("Upload Failed");
-  }
-}
-
 export class Video extends Model {
   _id?: ObjectId;
-  title?: string;
-  key?: string;
+  title?: string; // Required
+  key?: string; // Required
   owner?: ForeignKey<User>;
 
-  constructor(title: string) {
+  private constructor(title: string) {
     super();
     this.title = title;
   }
 
   async insert() {
+    if (!this.title || !this.key || !this.owner) throw new Error("Required fields on document not filled.");
     const insertResult = await videoCollection.insertOne(this);
     this._id = insertResult.insertedId;
   }
@@ -39,28 +34,23 @@ export class Video extends Model {
    * Inserts the video into the database.
    * @param access The user's authorization token.
    */
-  async upload_new(access: AccessToken, path: string): Promise<number> {
+  static async upload(title: string, access: AccessToken, path: string): Promise<{ status: number; video?: Video }> {
+    const video = new Video(title);
     const token_identity = await IdentityProvider.get_identity(AuthorizationScope.UPLOAD_VIDEO, access);
-    if (!token_identity) return UNAUTHORIZED;
+    if (!token_identity) return { status: UNAUTHORIZED };
     const authorized =
       token_identity.authorizations.includes(AuthorizationScope.UPLOAD_VIDEO) ||
       token_identity.authorizations.includes(AuthorizationScope.ALL);
-    if (!authorized) return UNAUTHORIZED;
-    this.owner = token_identity.owner_id;
+    if (!authorized) return { status: UNAUTHORIZED };
+    video.owner = token_identity.owner_id;
 
     const valid_video = "format" in (await probe(path));
-    if (!valid_video) return UNSUPPORTED_MEDIA_TYPE;
+    if (!valid_video) return { status: UNSUPPORTED_MEDIA_TYPE };
 
-
-    try {
-      const rs = fs.createReadStream(path);
-      const upload = await S3Service.uploadVideo(rs);
-      this.key = upload.Key;
-      this.insert();
-      return OK;
-    } catch (error) {
-      console.error(error);
-      return INTERNAL_SERVER_ERROR;
-    }
+    const rs = fs.createReadStream(path);
+    const upload = await S3Service.uploadVideo(rs);
+    video.key = upload.Key;
+    video.insert();
+    return { status: OK, video: video };
   }
 }

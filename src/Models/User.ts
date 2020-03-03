@@ -22,7 +22,7 @@ export class User extends Model {
         
     }
     
-    insert() {
+    public insert() {
         return userCollection.insertOne(this);
     }
 }
